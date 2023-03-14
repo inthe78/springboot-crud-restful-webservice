@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" th:href="@{/css/main.css}">
+
+<!-- <link rel="stylesheet" th:href="@{registration.css}"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<head>
+    <title>Players List</title>
+    
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      
+    
+</head>
+
+<body>
+
+   <!--  <div th:replace="fragment/header :: header"></div> -->
+   
+      
+
+    
+          <form th:action="@{/}" style="margin-left:500px;margin-top:10px;">
+               <input style="height:50px;font-size:14pt; border-radius:10px;" type="search" name="keyword" id="keyword" th:value="${keyword}" required>&nbsp;
+               <input style="width:90px;height:50px;font-size:14pt;background-color: blue;border-radius:10px;" type="submit" value="search">&nbsp;
+               <input  style="width:90px;height:50px;font-size:14pt;background-color: red;border-radius:10px;" type="button" value="Clear" id ="btnClear" onclick="clearSearch()">
+               
+          </form>
+          
+         
+
+     
+         <div style="margin-left: 900px; margin-top:20px" th:object="${player}">
+               <select name="forma" id='SelectOption' onchange="window.location.href=this.value">
+                       <option value="/">Select</option>
+                       <option value="/sortByName">SortByName</option>
+                       <option value="http://localhost:8080/getFemaleEmployee">Home</option>
+                        <option value="/getFemaleEmployee">Update Player</option>
+                        <option value="/register">Add Player</option>
+                      
+                 </select>
+      </div>
+		
+		<h1 style="color: red">WORLD PLAYERS LIST</h1>
+		
+		  <div><a href="/register">Register</a></div>
+		  
+		<table class="table">
+			<thead>
+				<tr class="tr_head">
+					<th>Id</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Birth Date</th>
+					<th>JerseyNumber</th>
+					<th>FootballLeague</th>
+					<th>Team</th>
+					<th>Salary</th>
+					<th>Position</th>
+					<th>Country</th>
+					<th>Image</th>
+					<th>Delete</th>
+					<th>Edit</th>
+					<th>View</th>
+				</tr>
+			</thead>
+			
+	
+
+			<tbody>
+				<tr th:each="user : ${playerList}"  class="tr_data">
+					<td th:text="${user.id}"></td>
+					<td th:text="${user.firstName}"></td>
+					<td th:text="${user.lastName}"></td>
+					<td th:text="${user.birth_date}"></td>
+					<td th:text="${user.jerseyNumber}"></td>
+					<td th:text="${user.footballLeague}"></td>
+					<td th:text="${user.team}"></td>
+					<td th:text="${user.salary}"></td>
+					<td th:text="${user.position}"></td>
+					<td th:text="${user.country}"></td>
+					<td><img alt="" th:src="*{'data:image/jpeg;base64,' + {user.image}}" style="width:100px;height:50px"></td>
+					
+					
+					
+					<!-- <td>
+					<a th:href="@{/register}">Add</a>        
+                    </td> -->
+                    
+					<td>
+					<a th:href="@{/deletePlayer/{id}(id=${user.id})}">Delete</a>        
+                    </td>
+                    
+                    <td>
+                    <a th:href="@{/editPlayer/{id}(id=${user.id})}">Edit</a>
+                    </td>
+                    
+                    <td>
+                    <a th:href="@{/viewEmployee/{id}(id=${user.id})}">View</a>
+                    </td>
+                    
+                    
+                    <!-- <td>
+                    <a th:href="@{/sortByName}">SBN</a>
+                    </td>
+                    
+                    <td>
+                    <a th:href="@{/sortBySalary}">SBS</a>
+                    </td>
+                    
+                    <td>
+                    <a th:href="@{/getFemaleEmployee}">FEmp</a>
+                    </td>
+                    
+                    <td>
+                    <a th:href="@{/getMaleEmployee}">MEmp</a>
+                    </td> -->
+                    
+                    <!-- <td>
+                    <select class="form-control" id="dropDownList">
+                    <option value="0">select option</option>
+                     <option value="<a th:href="@{/getFemaleEmployee}">FEmp</a> ></option>
+                     </select>
+                    </td> -->
+                    
+                    <!-- <td>
+                    <select name="forma" id='SelectOption' onchange="window.location.href=this.value">
+                       <option value="http://localhost:8080/getFemaleEmployee">Home</option>
+                         <option value="/getFemaleEmployee">Female Employee</option>
+                      <option value="Sitemap"><a href="sitemap.php">Sitemap</a></option>
+                 </select>
+                </td> -->
+                    
+                    
+                    
+                    <!-- <a th:href="@{/searchBySalary/{salary}(salary=${})}">SearchBySalary</a>
+                    <input type="number" th:value="${}" name="salary" />
+                    </td>  -->
+					
+					 <!-- <form action="/sortByName" method="post" >
+						<input type="submit" value="update"  class="linkbtnform">
+					</form> -->
+					
+					<!-- <form action="/deleteEmployee" method="post">
+						<input type="hidden" th:value="${user.id}" name="id" />
+						<input type="submit" value="delete"  class="linkbtnform">
+					</form>  -->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+
+function clearSearch(){
+	window.location = "[[@{/}]]";
+}
+
+
+
+</script>
+
+
+     
+</body>
+
+</html>
+
+
+
